@@ -31,11 +31,11 @@ function compile() {
    prog = document.f.src.value.split(/[\n\r]/)
    for (i = 0; i < prog.length; i++) {
       label[i] = getlab(prog[i])
-      if (/get|print|store|load|add|sub|goto|ifpos|ifzero|stop/.test(label[i]))
+      if (/get|print|store|load|add|sub|goto|ifpos|ifzero|stop|rand/.test(label[i]))
          warn(i+1, "warning: should '" + label[i] + "' have a space in front of it??")
       opcode[i] = getop(prog[i])
       if (label[i] == "" && opcode[i] != "" 
-          && !(/get|print|store|load|add|sub|goto|ifpos|ifzero|stop/.test(opcode[i])))
+          && !(/get|print|store|load|add|sub|goto|ifpos|ifzero|stop|rand/.test(opcode[i])))
          warn(i+1, "error: '" + opcode[i] + "' doesn't seem to be a valid instruction")
       adr[i] = getadr(prog[i])
       if (adr[i] == "" && /store|load|add|sub|goto|ifpos|ifzero/.test(opcode[i]))
@@ -94,6 +94,8 @@ function instr() {
    else if (opcode[pc] == "init") {
       out("error: tried to execute data at " + (pc+1))
       pc = -2;
+   } else if (opcode[pc] == "rand") {
+         accumulator = Math.floor(Math.random() * 100);
    } else if (opcode[pc] != "") {
       out("error: invalid instruction '" + opcode[pc] + "' at line " + (pc+1))
       pc = -2;
@@ -174,6 +176,7 @@ function warn(n, s) {
      ifpos L   go to instruction labeled L if accumulator is &gt;= zero
      ifzero L  go to instruction labeled L if accumulator is zero
      stop      stop running
+     rand      put random number between 0 and 100 in accumulator
    M Num       before program runs, set this memory location (called M) to numeric value Num
 </pre>
 
