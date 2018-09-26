@@ -142,6 +142,7 @@ function getadr(s) {
 
 function out(s) {
    document.f.output.value += s + "\n"
+   document.f.output.scrollTop = document.f.output.scrollHeight
    document.f.accum.value = accumulator
 }
 
@@ -155,13 +156,48 @@ function warn(n, s) {
 &nbsp;&nbsp;&nbsp;&nbsp; Program:
  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;  &nbsp; &nbsp; &nbsp; &nbsp;   Output: <br>
      &nbsp;&nbsp;&nbsp;&nbsp;
-<textarea name=src rows=6 cols=15 style="background:#fffafa; border-width:thin" ></textarea> &nbsp;&nbsp;&nbsp;&nbsp;
+<textarea name=src rows=6 cols=15 style="background:#fffafa; border-width:thin" >
+top
+ rand
+ store answer
+loop
+ get
+ print
+ sub answer
+ ifzero correct
+ ifpos lower
+ goto higher
+correct
+ load 999
+ print
+ stop
+lower
+ load -111
+ print
+ goto loop
+higher
+ load 111
+ print
+ goto loop
+answer 0
+</textarea> &nbsp;&nbsp;&nbsp;&nbsp;
 <textarea name=output rows=6 cols=15 style="background:#fffff0; border-width:thin"></textarea> &nbsp;&nbsp;&nbsp;&nbsp;
 <p>
  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;  Accumulator: &nbsp; <input name=accum size=10 style="background:#fffff0">
 <P>    &nbsp;&nbsp;&nbsp;&nbsp;
 <INPUT TYPE="button" VALUE="RUN" onClick='compile(); run()'>
 </form>
+
+<h4> Guess a number! </h4>
+
+<p>This page includes a sample program demonstrating a simple guess a number game. Click run and then enter a number, look in the output box and you'll see your guess and one of three numbers following it:</p>
+<ul>
+      <li>-111 means your guess was too high and the answer is lower</li>
+      <li>111 means your guess was too low and the answer is higher</li>
+      <li>999 means you guessed correctly!</li>
+</ul>
+
+<p>Note: To implement this game a RAND instruction was added to the simulator (see Syntax section).</p>      </p>
 
 <h4> Syntax reminder </h4>
 
